@@ -44,7 +44,7 @@ class DrawPanel extends JPanel implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-
+        Deck deck = new Deck();
         Point clicked = e.getPoint();
 
         if (e.getButton() == 1) {
@@ -65,7 +65,7 @@ class DrawPanel extends JPanel implements MouseListener {
                 Rectangle box = hand.get(i).getCardBox();
                 if (box.contains(clicked)) {
                     if (hand.get(i).getHighlight()) {
-                        hand.remove(i);
+                        deck.addToDeck(hand.get(i));
                     } else {
                         hand.get(i).flipHighlight();
                     }

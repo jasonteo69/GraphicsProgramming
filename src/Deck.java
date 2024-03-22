@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 
 public class Deck {
-    ArrayList<Card> deck;
-    public Deck() {
-        deck = new ArrayList<Card>();
-    }
-    public void addToDeck(Card card) {
-        deck.add(card);
-    }
+    private ArrayList<Card> deck;
 
+    public Deck(ArrayList<Card> deck) {
+        this.deck = deck;
+    }
+    public void remove(Card card) {
+        deck.remove(card);
+    }
+    public Card randomCard() {
+        return deck.get((int) (Math.random() * deck.size()));
+    }
 }

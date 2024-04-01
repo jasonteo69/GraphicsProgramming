@@ -12,12 +12,18 @@ class DrawPanel extends JPanel implements MouseListener {
     private ArrayList<Card> hand;
     private Rectangle button;
     private Deck deck;
+    private Rectangle gameFunction;
 
     public DrawPanel() {
-        button = new Rectangle(147, 255, 160, 26);
+        button = new Rectangle(147, 255, 125, 26);
+        gameFunction = new Rectangle(330, 25, 150, 30);
         this.addMouseListener(this);
         hand = Card.buildHand();
         deck = new Deck(Card.buildDeck());
+        for (Card card : hand) {
+            deck.remove(card);
+        }
+        System.out.println(deck.getDeck().size());
     }
 
     protected void paintComponent(Graphics g) {
@@ -41,8 +47,11 @@ class DrawPanel extends JPanel implements MouseListener {
             }
         }
         g.setFont(new Font("Courier New", Font.BOLD, 20));
-        g.drawString("GET NEW CARDS", 150, 275);
+        g.drawString("PLAY AGAIN", 150, 275);
         g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
+        g.drawRect((int)gameFunction.getX(), (int)gameFunction.getY(), (int)gameFunction.getWidth(), (int)gameFunction.getHeight());
+        g.setFont(new Font("Courier New", Font.BOLD, 16));
+        g.drawString("REPLACE CARDS", 333, 45);
     }
 
     public void mousePressed(MouseEvent e) {
@@ -52,6 +61,10 @@ class DrawPanel extends JPanel implements MouseListener {
         if (e.getButton() == 1) {
             if (button.contains(clicked)) {
                 hand = Card.buildHand();
+                deck = new Deck(Card.buildDeck());
+                for (Card card : hand) {
+                    deck.remove(card);
+                }
             }
 
             for (int i = 0; i < hand.size(); i++) {
@@ -63,13 +76,25 @@ class DrawPanel extends JPanel implements MouseListener {
         }
 
         if (e.getButton() == 3) {
+            System.out.println("Mouse right-click detected.");
             for (int i = 0; i < hand.size(); i++) {
                 Rectangle box = hand.get(i).getCardBox();
+                System.out.println("Clicked position: " + clicked);
+                System.out.println("Card " + i + " position: " + box);
                 if (box.contains(clicked)) {
+                    System.out.println("Card " + i + " clicked.");
                     if (hand.get(i).getHighlight()) {
+                        System.out.println("Card " + i + " is highlighted.");
+                        System.out.println("Deck size before removal: " + deck.getDeck().size());
                         deck.remove(hand.get(i));
+                        System.out.println("Deck size after removal: " + deck.getDeck().size());
                         hand.remove(hand.get(i));
-                        hand.add(i, deck.randomCard());
+                        Card newCard = deck.randomCard();
+                        hand.add(i, newCard);
+                        System.out.println("New card selected: " + newCard);
+                        System.out.println("Hand size: " + hand.size());
+                        System.out.println("Deck size: " + deck.getDeck().size());
+
                     }
                     else {
                         hand.get(i).flipHighlight();

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.Rectangle;
+import java.util.Objects;
 
 public class Card {
     private String suit;
@@ -106,5 +107,17 @@ public class Card {
             hand.add(c);
         }
         return hand;
+    }
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Card card = (Card) obj;
+        return Objects.equals(suit, card.suit) &&
+                Objects.equals(value, card.value);
+    }
+    public int hashCode() {
+        return Objects.hash(suit, value);
     }
 }

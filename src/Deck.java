@@ -12,4 +12,8 @@ public class Deck {
     public Card randomCard() {
         return deck.get((int) (Math.random() * deck.size()));
     }
+
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
 }
